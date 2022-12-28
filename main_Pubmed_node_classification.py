@@ -173,7 +173,8 @@ def train_val_pipeline(MODEL_NAME, dataset, params, net_params, dirs):
                 ckpt_dir = os.path.join(root_ckpt_dir, "RUN_")
                 if not os.path.exists(ckpt_dir):
                     os.makedirs(ckpt_dir)
-                torch.save(model.state_dict(), '{}.pkl'.format(ckpt_dir + "/epoch_" + str(epoch)))
+                if int(epoch) % 50 == 0:
+                    torch.save(model.state_dict(), '{}.pkl'.format(ckpt_dir + "/epoch_" + str(epoch)))
 
                 files = glob.glob(ckpt_dir + '/*.pkl')
                 for file in files:
