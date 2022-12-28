@@ -3,6 +3,7 @@
 """
 from data.molecules import MoleculeDataset
 from data.SBMs import SBMsDataset
+from data.Pubmed import PubmedDataset
 
 def LoadData(DATASET_NAME):
     """
@@ -18,4 +19,8 @@ def LoadData(DATASET_NAME):
     SBM_DATASETS = ['SBM_CLUSTER', 'SBM_PATTERN']
     if DATASET_NAME in SBM_DATASETS: 
         return SBMsDataset(DATASET_NAME)
+
+    NEW_DATASETS = ['PUBMED']
+    if DATASET_NAME in NEW_DATASETS:
+        return PubmedDataset(DATASET_NAME)
     

@@ -42,7 +42,7 @@ class GraphTransformerNet(nn.Module):
         if self.wl_pos_enc:
             self.embedding_wl_pos_enc = nn.Embedding(max_wl_role_index, hidden_dim)
         
-        self.embedding_h = nn.Embedding(in_dim_node, hidden_dim) # node feat is an integer
+        self.embedding_h = nn.Linear(in_dim_node, hidden_dim) # node feat is an integer
         
         self.in_feat_dropout = nn.Dropout(in_feat_dropout)
         
@@ -55,7 +55,7 @@ class GraphTransformerNet(nn.Module):
     def forward(self, g, h, e, h_lap_pos_enc=None, h_wl_pos_enc=None):
 
         # input embedding
-        h = self.embedding_h(h)
+        h = self.embedding_h(h.float())
         if self.lap_pos_enc:
             h_lap_pos_enc = self.embedding_lap_pos_enc(h_lap_pos_enc.float()) 
             h = h + h_lap_pos_enc
