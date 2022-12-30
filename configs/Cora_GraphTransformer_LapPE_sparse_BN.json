@@ -5,9 +5,9 @@
     },
     
     "model": "GraphTransformer",
-    "dataset": "PUBMED",
+    "dataset": "Cora",
     
-    "out_dir": "out/Pubmed_sparse_LapPE/",
+    "out_dir": "out/Cora_sparse_LapPE/",
     
     "params": {
         "seed": 41,

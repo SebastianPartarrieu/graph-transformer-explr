@@ -20,7 +20,7 @@ def LoadData(DATASET_NAME):
     if DATASET_NAME in SBM_DATASETS: 
         return SBMsDataset(DATASET_NAME)
 
-    NEW_DATASETS = ['PUBMED']
+    NEW_DATASETS = ['PUBMED', 'Cora']
     if DATASET_NAME in NEW_DATASETS:
         return PubmedDataset(DATASET_NAME)
     
