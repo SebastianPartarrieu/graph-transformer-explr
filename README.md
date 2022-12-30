@@ -34,19 +34,12 @@ A few main scripts were added to be able to run on new data:
 - main_Pubmed_node_classification.py: this contains the actual training loop and parses the config (json) file to get the architecture parameters when training the model
 - data/Pubmed.py: this has both classes load_Pubmed and PubmedDataset which are essential to be able to load the datasets from the pytorch geometric library and then create the custom class that is needed by the Graph Transformer architecture (need to able to add the laplacian positional encodings, work with dgl library etc etc)
 - train/train_Pubmed_node_classification.py: this file contains the training and evaluation functions and only features small changes compared to the original training scripts
+- configs/DATASET_NAME_GraphTransformer_LapPE_sparse_BN.json: with the chosen parameters for training the model
 
-Overall, to be able to run graph transformers on new datasets, these are the files that one has to create.
+Overall, to be able to run graph transformers on new datasets, these are the files that one has to create.;
 
 The main experiments were conducted in notebooks after creating the above files. These can be found in:
 - node_classif_benchmark.ipynb: simply downloading the correct libraries and calling main_Pubmed_node_classification.py
 - simpler_baselines.ipynb: running graph kernels & spectral clustering for node classification as simple comparative baselines
 
 <br>
-
-## 4. Reference 
-
-:page_with_curl: Paper [on arXiv](https://arxiv.org/abs/2012.09699)    
-:pencil: Blog [on Towards Data Science](https://towardsdatascience.com/
-
-<br><br><br>
-
