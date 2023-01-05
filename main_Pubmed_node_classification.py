@@ -11,6 +11,7 @@ import random
 import glob
 import argparse, json
 import pickle
+import pandas as pd
 
 import torch
 import torch.nn as nn
@@ -128,6 +129,7 @@ def train_val_pipeline(MODEL_NAME, dataset, params, net_params, dirs):
     
     epoch_train_losses, epoch_val_losses = [], []
     epoch_train_accs, epoch_val_accs = [], [] 
+    epoch_test_losses, epoch_test_accs = [], []
     
     # import train and evaluate functions
     from train.train_Pubmed_node_classification import train_epoch, evaluate_network 
@@ -148,12 +150,14 @@ def train_val_pipeline(MODEL_NAME, dataset, params, net_params, dirs):
                 epoch_train_loss, epoch_train_acc, optimizer = train_epoch(model, optimizer, device, train_loader, epoch)
                     
                 epoch_val_loss, epoch_val_acc = evaluate_network(model, device, val_loader, epoch)
-                _, epoch_test_acc = evaluate_network(model, device, test_loader, epoch)        
+                epoch_test_loss, epoch_test_acc = evaluate_network(model, device, test_loader, epoch)        
                 
                 epoch_train_losses.append(epoch_train_loss)
                 epoch_val_losses.append(epoch_val_loss)
                 epoch_train_accs.append(epoch_train_acc)
                 epoch_val_accs.append(epoch_val_acc)
+                epoch_test_losses.append(epoch_test_loss)
+                epoch_test_accs.append(epoch_test_acc)
 
                 writer.add_scalar('train/_loss', epoch_train_loss, epoch)
                 writer.add_scalar('val/_loss', epoch_val_loss, epoch)
@@ -219,7 +223,16 @@ def train_val_pipeline(MODEL_NAME, dataset, params, net_params, dirs):
     Convergence Time (Epochs): {:.4f}\nTotal Time Taken: {:.4f} hrs\nAverage Time Per Epoch: {:.4f} s\n\n\n"""\
           .format(DATASET_NAME, MODEL_NAME, params, net_params, model, net_params['total_param'],
                   test_acc, train_acc, epoch, (time.time()-start0)/3600, np.mean(per_epoch_time)))
-
+    
+    save_training_curves = pd.DataFrame()
+    save_training_curves['train_loss'] = epoch_train_losses
+    save_training_curves['train_acc'] = epoch_train_accs
+    save_training_curves['val_loss'] = epoch_val_losses
+    save_training_curves['val_acc'] = epoch_val_accs
+    save_training_curves['test_loss'] = epoch_test_losses
+    save_training_curves['test_acc'] = epoch_test_accs
+    save_training_curves['epoch'] = save_training_curves.index
+    save_training_curves.to_csv(log_dir+'/traning_results.csv', index=False)
         
 def main():    
     """
